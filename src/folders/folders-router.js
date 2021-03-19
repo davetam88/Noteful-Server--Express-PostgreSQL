@@ -15,7 +15,6 @@ const serializeFolder = folder => ({
 foldersRouter
   .route('/')
   .get((req, res, next) => {
-
     FoldersService.getAllFolders(
       req.app.get('db')
     )
@@ -49,32 +48,33 @@ foldersRouter
         // console.log(`folder :>> `, folder) ||
         res
           .status(201)
-          // .location(`/folders/${folder.id}`)
-          .location(path.posix.join(req.originalUrl, `/${folder.id}`))
+          // .location(`/ folders / ${ folder.id }`)
+          .location(path.posix.join(req.originalUrl, `/ ${folder.id}`))
           .json(folder)
       })
       .catch(next)
   })
 
-// for / get with route id : get, delete and patch
+// for path / id :  get, delete and patch
 foldersRouter
   .route('/:folder_id')
   .all((req, res, next) => {
-    FoldersService.getById(
-      req.app.get('db'),
-      req.params.folder_id
-    )
-      .then(folder => {
-        if (!folder)
-        {
-          return res.status(404).json({
-            error: { message: `Folder doesn't exist` }
-          })
-        }
-        res.folder = folder // save the folder for the next middleware
-        next() // don't forget to call next so the next middleware happens!
-      })
-      .catch(next)
+    console.log(`2 folder :>> `, folder) ||
+      FoldersService.getById(
+        req.app.get('db'),
+        req.params.folder_id
+      )
+        .then(folder => {
+          if (!folder)
+          {
+            return res.status(404).json({
+              error: { message: `Folder doesn't exist` }
+            })
+          }
+          res.folder = folder // save the folder for the next middleware
+          next() // don't forget to call next so the next middleware happens!
+        })
+        .catch(next)
   })
   .get((req, res, next) => {
     res.json({
