@@ -41,7 +41,6 @@ foldersRouter
     }
 
 
-
     FoldersService.insertFolder(
       req.app.get('db'),
       newFolder
